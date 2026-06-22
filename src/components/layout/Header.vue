@@ -1,23 +1,55 @@
 <template>
-  <header style="background: #2d5a27; color: white; padding: 1rem 2rem; position: fixed; top: 0; left: 0; right: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-    <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-      <!-- Logo -->
-      <router-link to="/" style="color: white; text-decoration: none; font-size: 1.3rem; font-weight: 800; display: flex; align-items: center; gap: 0.5rem;">
-        <span style="font-size: 1.6rem;">🌱</span>
-        <span>Agricultura<span style="color: #D4A853;">Antigua</span></span>
-      </router-link>
+  <header class="header fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container">
+        <!-- Logo -->
+        <router-link to="/" class="navbar-brand fw-bold fs-4">
+          🌱 Agricultura<span class="text-warning">Antigua</span>
+        </router-link>
 
-      <!-- Navegación -->
-      <nav style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">
-        <router-link to="/" style="color: rgba(255,255,255,0.8); text-decoration: none; font-weight: 600; padding: 0.5rem 0.8rem; border-radius: 8px; transition: all 0.3s; font-size: 0.9rem;">Inicio</router-link>
-        <router-link to="/pilares" style="color: rgba(255,255,255,0.8); text-decoration: none; font-weight: 600; padding: 0.5rem 0.8rem; border-radius: 8px; transition: all 0.3s; font-size: 0.9rem;">Pilares</router-link>
-        <router-link to="/mitos" style="color: rgba(255,255,255,0.8); text-decoration: none; font-weight: 600; padding: 0.5rem 0.8rem; border-radius: 8px; transition: all 0.3s; font-size: 0.9rem;">Mitos</router-link>
-        <router-link to="/casos" style="color: rgba(255,255,255,0.8); text-decoration: none; font-weight: 600; padding: 0.5rem 0.8rem; border-radius: 8px; transition: all 0.3s; font-size: 0.9rem;">Casos</router-link>
-        <router-link to="/recursos" style="color: rgba(255,255,255,0.8); text-decoration: none; font-weight: 600; padding: 0.5rem 0.8rem; border-radius: 8px; transition: all 0.3s; font-size: 0.9rem;">Recursos</router-link>
-        <router-link to="/contacto" style="color: rgba(255,255,255,0.8); text-decoration: none; font-weight: 600; padding: 0.5rem 0.8rem; border-radius: 8px; transition: all 0.3s; font-size: 0.9rem;">Contacto</router-link>
-        <router-link to="/recetas" style="display: inline-block; padding: 0.4rem 1.2rem; background: #D4A853; color: white; border-radius: 50px; text-decoration: none; font-weight: 600; font-size: 0.85rem; transition: all 0.3s;">Recetas</router-link>
-      </nav>
-    </div>
+        <!-- Botón hamburguesa para móvil -->
+        <button
+          class="navbar-toggler border-0"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Menú de navegación -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto align-items-lg-center">
+            <li class="nav-item">
+              <router-link to="/" class="nav-link" active-class="active">Inicio</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to="/pilares" class="nav-link" active-class="active">Pilares</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to="/mitos" class="nav-link" active-class="active">Mitos</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to="/casos" class="nav-link" active-class="active">Casos</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to="/recursos" class="nav-link" active-class="active">Recursos</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to="/contacto" class="nav-link" active-class="active">Contacto</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to="/recetas" class="btn btn-warning btn-sm rounded-pill px-3 py-2 ms-2 fw-semibold text-dark">
+                🧪 Recetas
+              </router-link>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
   </header>
 </template>
 
@@ -28,14 +60,57 @@ export default {
 </script>
 
 <style scoped>
-.router-link-active {
+.header {
+  background: #2d5a27;
+  box-shadow: 0 2px 15px rgba(0,0,0,0.2);
+  transition: all 0.3s;
+}
+
+.navbar-brand {
+  font-size: 1.4rem;
+  letter-spacing: -0.5px;
+}
+
+.nav-link {
+  color: rgba(255,255,255,0.85) !important;
+  font-weight: 600;
+  padding: 0.5rem 1rem !important;
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+
+.nav-link:hover {
+  color: #fff !important;
+  background: rgba(255,255,255,0.1);
+}
+
+.nav-link.active {
   color: #D4A853 !important;
   background: rgba(212,168,83,0.15);
 }
 
-@media (max-width: 768px) {
-  header { padding: 0.8rem 1rem; }
-  nav { gap: 0.3rem; }
-  nav a { font-size: 0.8rem !important; padding: 0.3rem 0.6rem !important; }
+.btn-warning {
+  background: #D4A853;
+  border: none;
+  transition: all 0.3s;
+}
+
+.btn-warning:hover {
+  background: #C49A3A;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(212,168,83,0.3);
+}
+
+@media (max-width: 991.98px) {
+  .navbar-nav {
+    padding-top: 1rem;
+  }
+  .nav-item {
+    text-align: center;
+  }
+  .btn-warning {
+    margin-top: 0.5rem;
+    width: 100%;
+  }
 }
 </style>

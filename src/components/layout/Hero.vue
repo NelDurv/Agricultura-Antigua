@@ -1,41 +1,37 @@
 <template>
-  <section style="min-height: 60vh; display: flex; align-items: center; background: linear-gradient(135deg, #1a3b1a 0%, #2d5a27 50%, #3d7a33 100%); padding: 2rem;">
-    <div style="max-width: 1200px; margin: 0 auto; padding: 4rem 2rem; width: 100%;">
-      <div style="max-width: 700px;">
-        <span style="display: inline-block; padding: 0.4rem 1.2rem; background: rgba(212,168,83,0.2); border: 1px solid rgba(212,168,83,0.3); border-radius: 50px; color: #D4A853; font-size: 0.85rem; font-weight: 600; margin-bottom: 1.5rem;">
-          🌱 Ciencia de Frontera
-        </span>
-        <h1 style="color: white; font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem; font-family: 'Playfair Display', serif;">
-          Agricultura <span style="color: #D4A853;">Antigua</span>,<br>
-          para <span style="color: #D4A853;">¡HOY!</span>
-        </h1>
-        <p style="color: rgba(255,255,255,0.85); font-size: clamp(1rem, 1.5vw, 1.25rem); max-width: 600px; line-height: 1.8; margin-bottom: 2.5rem;">
-          Rescatando la sabiduría ancestral que alimentó a la humanidad por 12,000 años, potenciada con tecnologías del siglo XXI.
-        </p>
-
-        <!-- BOTONES -->
-        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-          <!-- Botón principal: Explorar los 5 Pilares -->
-          <router-link
-            to="/pilares"
-            style="display: inline-block; padding: 0.8rem 2rem; background: #D4A853; color: white; border-radius: 50px; text-decoration: none; font-weight: 600; font-size: 1rem; border: none; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(212,168,83,0.3);"
-            @mouseenter="hoverPilares = true"
-            @mouseleave="hoverPilares = false"
-            :style="hoverPilares ? 'transform: translateY(-3px); box-shadow: 0 8px 30px rgba(212,168,83,0.4);' : ''"
-          >
-            🌱 Explorar los 5 Pilares →
-          </router-link>
-
-          <!-- Botón secundario: Ciencia de Frontera -->
-          <router-link
-            to="/ciencia"
-            style="display: inline-block; padding: 0.8rem 2rem; background: rgba(255,255,255,0.1); color: white; border: 2px solid rgba(255,255,255,0.3); border-radius: 50px; text-decoration: none; font-weight: 600; font-size: 1rem; cursor: pointer; transition: all 0.3s; backdrop-filter: blur(10px);"
-            @mouseenter="hoverCiencia = true"
-            @mouseleave="hoverCiencia = false"
-            :style="hoverCiencia ? 'background: rgba(255,255,255,0.2); border-color: #D4A853; transform: translateY(-3px);' : ''"
-          >
-            🔬 Ciencia de Frontera
-          </router-link>
+  <section class="hero-section d-flex align-items-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-7">
+          <div class="animate__animated animate__fadeInUp">
+            <span class="hero-badge d-inline-block px-4 py-2 rounded-pill mb-4">
+              🌱 Ciencia de Frontera
+            </span>
+            <h1 class="hero-title display-2 fw-bold mb-4">
+              Agricultura <span class="text-warning">Antigua</span>,<br>
+              para <span class="text-warning">¡HOY!</span>
+            </h1>
+            <p class="hero-subtitle fs-5 mb-4 text-white-50">
+              Rescatando la sabiduría ancestral que alimentó a la humanidad por 12,000 años,
+              potenciada con tecnologías del siglo XXI para lograr soberanía alimentaria y rentabilidad.
+            </p>
+            <div class="d-flex flex-wrap gap-3">
+              <router-link to="/pilares" class="btn btn-warning btn-lg rounded-pill px-5 py-3 fw-semibold shadow-lg">
+                🌱 Explorar los 5 Pilares
+              </router-link>
+              <router-link to="/ciencia" class="btn btn-outline-light btn-lg rounded-pill px-5 py-3 fw-semibold">
+                🔬 Ciencia de Frontera
+              </router-link>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-5 d-none d-lg-flex align-items-center justify-content-center">
+          <div class="animate__animated animate__fadeIn animate__delay-1s">
+            <div class="hero-icon-display text-center">
+              <span class="display-1">🌿</span>
+              <p class="text-white-50 small mt-2">Sabiduría + Ciencia</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -44,12 +40,92 @@
 
 <script>
 export default {
-  name: 'Hero',
-  data() {
-    return {
-      hoverPilares: false,
-      hoverCiencia: false
-    }
-  }
+  name: 'Hero'
 }
 </script>
+
+<style scoped>
+.hero-section {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1a3b1a 0%, #2d5a27 50%, #3d7a33 100%);
+  padding: 6rem 0 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(212,168,83,0.1) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.hero-badge {
+  background: rgba(212,168,83,0.2);
+  border: 1px solid rgba(212,168,83,0.3);
+  color: #D4A853;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.hero-title {
+  color: white;
+  font-family: 'Playfair Display', serif;
+  line-height: 1.1;
+}
+
+.hero-subtitle {
+  max-width: 550px;
+  line-height: 1.8;
+}
+
+.btn-warning {
+  background: #D4A853;
+  border: none;
+  transition: all 0.3s;
+}
+
+.btn-warning:hover {
+  background: #C49A3A;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(212,168,83,0.4);
+}
+
+.btn-outline-light {
+  border: 2px solid rgba(255,255,255,0.3);
+  transition: all 0.3s;
+}
+
+.btn-outline-light:hover {
+  background: rgba(255,255,255,0.1);
+  transform: translateY(-3px);
+}
+
+.hero-icon-display {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    min-height: 90vh;
+    padding: 4rem 0;
+  }
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  .btn-lg {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+}
+</style>
