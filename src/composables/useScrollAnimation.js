@@ -28,7 +28,6 @@ export function useScrollAnimation() {
     }
 
     onMounted(() => {
-        // Inicializar después del montaje para asegurar que los elementos existan
         setTimeout(initScrollAnimation, 100)
     })
 

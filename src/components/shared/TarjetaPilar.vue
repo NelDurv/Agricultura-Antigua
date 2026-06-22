@@ -1,22 +1,28 @@
 <template>
-  <router-link :to="pilar.enlace" class="card-pilar" :style="{ borderColor: pilar.color }">
+  <router-link
+    :to="`/pilares/${pilar.id}`"
+    class="card-pilar"
+    :style="{ borderColor: pilar.color }"
+  >
     <div class="card-pilar-icon" :style="{ background: pilar.bgColor }">
       <span>{{ pilar.icono }}</span>
     </div>
     <h3 class="card-pilar-title">{{ pilar.titulo }}</h3>
     <p class="card-pilar-subtitle">{{ pilar.subtitulo }}</p>
-    <p class="card-pilar-desc">{{ pilar.descripcion }}</p>
+    <p class="card-pilar-desc">{{ truncateText(pilar.descripcion, 80) }}</p>
     <span class="card-pilar-link">Explorar →</span>
   </router-link>
 </template>
 
 <script setup>
 const props = defineProps({
-  pilar: {
-    type: Object,
-    required: true,
-  },
+  pilar: { type: Object, required: true },
 })
+
+const truncateText = (text, max) => {
+  if (text.length <= max) return text
+  return text.slice(0, max) + '...'
+}
 </script>
 
 <style scoped>
@@ -31,12 +37,10 @@ const props = defineProps({
   text-decoration: none;
   color: inherit;
 }
-
 .card-pilar:hover {
   transform: translateY(-6px);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
 }
-
 .card-pilar-icon {
   width: 56px;
   height: 56px;
@@ -47,7 +51,6 @@ const props = defineProps({
   font-size: 1.8rem;
   margin-bottom: 1rem;
 }
-
 .card-pilar-title {
   font-family: var(--font-display);
   font-size: 1.3rem;
@@ -55,27 +58,23 @@ const props = defineProps({
   color: var(--color-gray-900);
   margin-bottom: 0.25rem;
 }
-
 .card-pilar-subtitle {
   font-size: 0.85rem;
   color: var(--color-gray-600);
   margin-bottom: 0.75rem;
 }
-
 .card-pilar-desc {
   font-size: 0.95rem;
   color: var(--color-gray-800);
   line-height: 1.6;
   margin-bottom: 1rem;
 }
-
 .card-pilar-link {
   font-weight: 600;
   font-size: 0.9rem;
   color: var(--color-primary);
   transition: all var(--transition);
 }
-
 .card-pilar:hover .card-pilar-link {
   transform: translateX(4px);
   display: inline-block;

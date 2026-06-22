@@ -1,281 +1,49 @@
 <template>
-  <div class="view-recetas">
-    <!-- Vista de lista de recetas -->
-    <section v-if="!recetaActual" class="section">
-      <div class="container">
-        <div class="section-title scroll-animate">
-          <h2>Recetas y Protocolos Prácticos</h2>
-          <p>Bioinsumos, caldos minerales y tratamientos para aplicar en el campo</p>
-        </div>
-
-        <div class="filtros scroll-animate">
-          <button
-            v-for="cat in categorias"
-            :key="cat"
-            class="btn-filtro"
-            :class="{ active: categoriaSeleccionada === cat }"
-            @click="categoriaSeleccionada = cat"
-          >
-            {{ cat }}
-          </button>
-        </div>
-
-        <div class="grid-2">
-          <TarjetaReceta
-            v-for="receta in recetasFiltradas"
-            :key="receta.id"
-            :receta="receta"
-            class="scroll-animate"
-            @click="verReceta(receta.id)"
-          />
-        </div>
+  <div style="padding: 2rem 0;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+      <div style="text-align: center; margin-bottom: 3rem; margin-top: 2rem;">
+        <h1 style="font-family: 'Playfair Display', serif; font-size: 3rem; color: #1a1a1a;">🧪 Recetas y Protocolos</h1>
+        <p style="color: #666; max-width: 600px; margin: 0 auto; font-size: 1.1rem;">Bioinsumos, caldos minerales y tratamientos para aplicar en el campo</p>
       </div>
-    </section>
 
-    <!-- Vista de receta individual -->
-    <section v-else class="section">
-      <div class="container">
-        <button class="btn-back" @click="recetaActual = null">← Volver a todas las recetas</button>
-
-        <div class="scroll-animate">
-          <div class="receta-header">
-            <span class="receta-icon">{{ recetaActual.icono }}</span>
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem;">
+        <div v-for="receta in recetas" :key="receta.id" style="background: white; border-radius: 16px; padding: 2rem; border-top: 6px solid #4a7a43; box-shadow: 0 4px 20px rgba(0,0,0,0.05);">
+          <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+            <span style="font-size: 2.5rem;">{{ receta.icono }}</span>
             <div>
-              <span class="receta-categoria">{{ recetaActual.categoria }}</span>
-              <h1 class="receta-title">{{ recetaActual.titulo }}</h1>
-              <p class="receta-desc">{{ recetaActual.descripcion }}</p>
+              <span style="font-size: 0.75rem; font-weight: 600; color: #4a7a43; text-transform: uppercase;">{{ receta.categoria }}</span>
+              <h2 style="font-size: 1.3rem; font-weight: 700; margin: 0;">{{ receta.titulo }}</h2>
             </div>
           </div>
-        </div>
-
-        <div class="grid-2 scroll-animate">
-          <div class="card">
-            <h3 style="font-family: var(--font-display)">🧪 Ingredientes</h3>
-            <ul class="receta-ingredientes">
-              <li v-for="ing in recetaActual.ingredientes" :key="ing">
-                <span class="ing-bullet">•</span> {{ ing }}
-              </li>
+          <p style="color: #444; line-height: 1.8;">{{ receta.descripcion }}</p>
+          <p style="font-size: 0.85rem; color: #666;">⏱️ {{ receta.tiempo }}</p>
+          <div style="margin-top: 1rem;">
+            <h4 style="font-size: 0.9rem; color: #666;">Ingredientes:</h4>
+            <ul style="list-style: none; padding: 0;">
+              <li v-for="ing in receta.ingredientes" :key="ing" style="padding: 0.2rem 0; font-size: 0.9rem; color: #444;">• {{ ing }}</li>
             </ul>
-            <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--color-gray-600)">
-              ⏱️ Tiempo: {{ recetaActual.tiempo }}
-            </p>
           </div>
-
-          <div class="card">
-            <h3 style="font-family: var(--font-display)">🔧 Preparación</h3>
-            <ol class="receta-pasos">
-              <li v-for="paso in recetaActual.pasos" :key="paso">
-                {{ paso }}
-              </li>
-            </ol>
-          </div>
-        </div>
-
-        <div class="card scroll-animate" style="border-left: 4px solid var(--color-gold)">
-          <h3 style="font-family: var(--font-display); color: var(--color-gold)">
-            🌿 Dosis y Aplicación
-          </h3>
-          <p>{{ recetaActual.dosis }}</p>
-        </div>
-
-        <div class="receta-navegacion scroll-animate">
-          <button class="btn btn-outline" @click="recetaActual = null">
-            Ver todas las recetas
-          </button>
-          <router-link to="/recursos" class="btn btn-primary"> Ver recursos </router-link>
         </div>
       </div>
-    </section>
+
+      <div style="text-align: center; margin-top: 3rem;">
+        <router-link to="/" style="display: inline-block; padding: 0.75rem 2rem; background: #2d5a27; color: white; border-radius: 50px; text-decoration: none; font-weight: 600; transition: all 0.3s;">
+          ← Volver al inicio
+        </router-link>
+      </div>
+    </div>
   </div>
 </template>
 
-<script setup>
-import { ref, computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import TarjetaReceta from '@/components/shared/TarjetaReceta.vue'
+<script>
 import { RECETAS } from '@/data/contenido.js'
 
-const route = useRoute()
-const router = useRouter()
-
-const recetas = RECETAS
-const categoriaSeleccionada = ref('Todos')
-const recetaActual = ref(null)
-
-const categorias = ['Todos', ...new Set(recetas.map((r) => r.categoria))]
-
-const recetasFiltradas = computed(() => {
-  if (categoriaSeleccionada.value === 'Todos') {
-    return recetas
-  }
-  return recetas.filter((r) => r.categoria === categoriaSeleccionada.value)
-})
-
-const verReceta = (id) => {
-  const encontrada = recetas.find((r) => r.id === id)
-  if (encontrada) {
-    recetaActual.value = encontrada
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
-}
-
-// Verificar si hay un slug en la ruta
-const slug = route.params.slug
-if (slug) {
-  const encontrada = recetas.find((r) => r.id === slug)
-  if (encontrada) {
-    recetaActual.value = encontrada
+export default {
+  name: 'RecetasView',
+  data() {
+    return {
+      recetas: RECETAS
+    }
   }
 }
 </script>
-
-<style scoped>
-.btn-back {
-  display: inline-block;
-  margin-bottom: 2rem;
-  font-weight: 600;
-  color: var(--color-gray-600);
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-family: var(--font-primary);
-  font-size: 1rem;
-  transition: color var(--transition);
-}
-
-.btn-back:hover {
-  color: var(--color-primary);
-}
-
-.filtros {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  margin-bottom: 2rem;
-  justify-content: center;
-}
-
-.btn-filtro {
-  padding: 0.5rem 1.2rem;
-  border-radius: 50px;
-  border: 2px solid var(--color-gray-200);
-  background: var(--color-white);
-  font-family: var(--font-primary);
-  font-weight: 600;
-  font-size: 0.85rem;
-  color: var(--color-gray-600);
-  cursor: pointer;
-  transition: all var(--transition);
-}
-
-.btn-filtro:hover {
-  border-color: var(--color-primary);
-  color: var(--color-primary);
-}
-
-.btn-filtro.active {
-  background: var(--color-primary);
-  color: var(--color-white);
-  border-color: var(--color-primary);
-}
-
-.receta-header {
-  display: flex;
-  gap: 1.5rem;
-  align-items: flex-start;
-  margin-bottom: 2rem;
-}
-
-.receta-icon {
-  font-size: 3.5rem;
-  flex-shrink: 0;
-}
-
-.receta-categoria {
-  display: inline-block;
-  padding: 0.2rem 0.8rem;
-  background: var(--color-gray-100);
-  border-radius: 50px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--color-gray-600);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 0.5rem;
-}
-
-.receta-title {
-  font-family: var(--font-display);
-  font-size: clamp(2rem, 3vw, 2.5rem);
-  font-weight: 700;
-  color: var(--color-gray-900);
-  margin: 0 0 0.5rem 0;
-}
-
-.receta-desc {
-  font-size: 1.05rem;
-  color: var(--color-gray-600);
-  margin: 0;
-}
-
-.receta-ingredientes {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.receta-ingredientes li {
-  padding: 0.4rem 0;
-  border-bottom: 1px solid var(--color-gray-100);
-  font-size: 0.95rem;
-}
-
-.ing-bullet {
-  color: var(--color-gold);
-  font-weight: 700;
-  margin-right: 0.5rem;
-}
-
-.receta-pasos {
-  padding-left: 1.5rem;
-  margin: 0;
-}
-
-.receta-pasos li {
-  padding: 0.5rem 0;
-  font-size: 0.95rem;
-  line-height: 1.6;
-  border-bottom: 1px solid var(--color-gray-100);
-}
-
-.receta-pasos li:last-child {
-  border-bottom: none;
-}
-
-.receta-navegacion {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-top: 2rem;
-  padding-top: 2rem;
-  border-top: 1px solid var(--color-gray-200);
-}
-
-@media (max-width: 640px) {
-  .receta-header {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .receta-navegacion {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .receta-navegacion .btn {
-    justify-content: center;
-  }
-}
-</style>
